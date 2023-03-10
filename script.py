@@ -16,11 +16,13 @@ def funkce1():
     #Loop through each line
     for i in range(len(lines)):
         if "X" in lines[i]:
-            x = float(lines[i].split("X")[1].split("Y")[0])
-            if x > 50:
-                y = float(lines[i].split("Y")[1])
-                y += 10
-                lines[i] = lines[i].replace("Y" + str(int(y - 10)), "Y" + str(int(y)))
+            match = re.search(r"X([0-9.-]+)Y([0-9.-]+)", lines[i])
+            if match:
+                x = float(match.group(1))
+                y = float(match.group(2))
+                if x > 50:
+                    y += 10
+                    lines[i] = re.sub(r"Y[0-9.-]+", "Y" + str(y), lines[i])
 
     #join lines back together
     new_content = "\n".join(lines)
@@ -29,10 +31,10 @@ def funkce1():
     with open('cnc.txt', 'w') as output_file:
         # Write the modified contents to the new file
         output_file.write(new_content)
-    return None
 
+funkce1();
 
 #funkce2 prints min/max values from x and y axes to console
 
 def funkce2():
-    return None
+    pass
